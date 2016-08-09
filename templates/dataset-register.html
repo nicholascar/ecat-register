@@ -2,9 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Dataset Register</title>
 </head>
 <body>
-
+    <h1>Dataset Register</h1>
+    <h2>These are all the URIs of eCat's Datasets</h2>
+    <ul>
+        {% for uri in metadata_uris %}
+            <li><a href="{{uri}}">{{uri}}</a></li>
+        {% endfor %}
+    </ul>
 </body>
 </html>

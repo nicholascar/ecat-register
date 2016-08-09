@@ -9,7 +9,7 @@ def home():
     return 'hello home'
 
 
-@routes.route('/dataset/')
+@routes.route('/dataset')
 def dataset():
     return 'metadata about the dataset class'
 
@@ -17,7 +17,7 @@ def dataset():
 @routes.route('/dataset/')
 def datasets():
     # get the metadata values of the sample
-    metadata_uris = functions.get_dataset_uris()
+    metadata_uris = functions.get_dataset_uris_static('http://pid-test.geoscience.gov.au/dataset/')
 
     # list supported mime types
     human_mimes = [
@@ -78,8 +78,4 @@ def datasets():
     else:  # if best_mime in rdf_mimes:
         return render_template('dataset-register.xml',
                                metadata_uris=metadata_uris,
-                               mime='text/html')
-
-
-
-
+                               mime='application/xml')
