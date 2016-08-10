@@ -1,3 +1,4 @@
+import os.path
 import json
 from flask import Blueprint, Response, request, redirect, render_template, g, jsonify, render_template_string
 import settings
@@ -6,8 +7,8 @@ routes = Blueprint('routes', __name__)
 
 
 @routes.route('/')
-def home():
-    return 'hello home'
+def index():
+    return render_template('index.html')
 
 
 @routes.route('/dataset')
@@ -17,6 +18,18 @@ def dataset():
 
 @routes.route('/dataset/')
 def datasets():
+    # produce error note if dataset index missing
+    if not os.path.isfile(settings.DATASETS_JSON_FILE):
+        missing_txt = render_template_string(
+            open('templates/missing.html', 'r').read(),
+            title='Datasets',
+            missing_file='datasets index'
+        )
+        return Response(
+            missing_txt,
+            status=500
+        )
+
     # get the metadata values of the sample
     metadata_uris = json.load(open(settings.DATASETS_JSON_FILE))
     metadata_uris.sort()
