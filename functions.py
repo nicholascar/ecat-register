@@ -4,64 +4,45 @@ from rdflib import Graph, URIRef, RDF
 from lxml import etree
 
 
-# TODO: stream XML response
-# TODO: return URIs efficiently from streamed response
-def get_dataset_uris(uri_base):
-    # POST request the dataset list from eCat's CSW
-    d = '''
-    <csw:GetRecords
-        xmlns:csw="http://www.opengis.net/cat/csw/2.0.2"
-        xmlns:ogc="http://www.opengis.net/ogc"
-        service="CSW"
-        version="2.0.2"
-        resultType="results"
-        startPosition="1"
-        maxRecords="100000"
-        outputFormat="application/xml"
-        outputSchema="csw:IsoRecord"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2 http://schemas.opengis.net/csw/2.0.2/CSW-discovery.xsd"
-        xmlns:gmd="http://www.isotc211.org/2005/gmd"
-        xmlns:apiso="http://www.opengis.net/cat/csw/apiso/1.0">
-      <csw:Query typeNames="csw:Record">
-        <csw:ElementSetName>summary</csw:ElementSetName>
-        <csw:Constraint version="1.1.0">
-          <ogc:Filter>
-               <PropertyIsLike wildCard="*" singleChar="_" escapeChar="\">
-                   <PropertyName>AnyText</PropertyName>
-                   <Literal>*</Literal>
-               </PropertyIsLike>
-          </ogc:Filter>
-        </csw:Constraint>
-      </csw:Query>
-    </csw:GetRecords>
-    '''
-    r = requests.post('http://ecat.ga.gov.au/geonetwork/srv/eng/csw',
-                      data=d,
+def store_csw_request(csw_endpoint, request_xml, xml_file_to_save):
+    r = requests.post(csw_endpoint,
+                      data=request_xml,
                       headers={'Content-Type': 'application/xml'})
 
-    xml = etree.fromstring(r.content)
+    open(xml_file_to_save, 'w').write(r.content)
+
+    return True
+
+
+def store_uris(xml_file, xml_xpath, uri_base, json_file):
+    # read the XML file and parse using the path
+    xml = etree.parse(xml_file)
     namespaces = {
         'gmd': 'http://www.isotc211.org/2005/gmd',
         'mdb': 'http://standards.iso.org/iso/19115/-3/mdb/1.0',
-        'gco': 'http://www.isotc211.org/2005/gco',  # ''http://standards.iso.org/iso/19115/-3/gco/1.0',
+        'gco': 'http://www.isotc211.org/2005/gco',  # 'http://standards.iso.org/iso/19115/-3/gco/1.0',
         'mcc': 'http://standards.iso.org/iso/19115/-3/mcc/1.0',
         'cit': 'http://standards.iso.org/iso/19115/-3/cit/1.0'
     }
 
-    xpath = '//gmd:identifier/gmd:RS_Identifier/gmd:code/gco:CharacterString/text()'
-    ids = xml.xpath(xpath,
-                   namespaces=namespaces)
+    ids = xml.xpath(xml_xpath,
+                    namespaces=namespaces)
 
+    # add the uri_base to reach result
     results = []
     for id in ids:
         if is_int(id):
             results.append(uri_base + str(id))
 
-    return results
+    # write results to a JSON file
+    json.dump(results, open(json_file, 'w'), indent=4)
+
+    return True
 
 
 def is_int(s):
+    """Checks to see if a given string is an int
+    """
     try:
         int(s)
         return True
@@ -104,7 +85,44 @@ def uri_list_to_graph(uri_list, item_class):
 
 
 if __name__ == '__main__':
-    store_dataset_uris(
-        get_dataset_uris('http://pid.geoscience.gov.au/dataset/'),
-        'uris.json'
-    )
+    from datetime import datetime
+    csw_endpoint = 'http://ecat.ga.gov.au/geonetwork/srv/eng/csw'
+    request_xml = '''
+        <csw:GetRecords
+            xmlns:csw="http://www.opengis.net/cat/csw/2.0.2"
+            xmlns:ogc="http://www.opengis.net/ogc"
+            service="CSW"
+            version="2.0.2"
+            resultType="results"
+            startPosition="1"
+            maxRecords="100000"
+            outputFormat="application/xml"
+            outputSchema="csw:IsoRecord"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2 http://schemas.opengis.net/csw/2.0.2/CSW-discovery.xsd"
+            xmlns:gmd="http://www.isotc211.org/2005/gmd"
+            xmlns:apiso="http://www.opengis.net/cat/csw/apiso/1.0">
+            <csw:Query typeNames="csw:Record">
+                <csw:ElementSetName>summary</csw:ElementSetName>
+                <csw:Constraint version="1.1.0">
+                    <ogc:Filter>
+                       <PropertyIsLike wildCard="*" singleChar="_" escapeChar="\">
+                           <PropertyName>AnyText</PropertyName>
+                           <Literal>*</Literal>
+                       </PropertyIsLike>
+                    </ogc:Filter>
+                </csw:Constraint>
+            </csw:Query>
+        </csw:GetRecords>
+    '''
+    datasets_xml = 'datasets.xml'
+    #print 'store_csw_request start: ' + datetime.now().isoformat()
+    #store_csw_request(csw_endpoint, request_xml, datasets_xml)
+    #print 'store_csw_request end: ' + datetime.now().isoformat()
+    xpath = '//gmd:identifier/gmd:RS_Identifier/gmd:code/gco:CharacterString/text()'
+    uri_base = 'http://pid.geoscience.gov.au/dataset/'
+    json_file = 'dataset_uris.json'
+    print 'store_uris start: ' + datetime.now().isoformat()
+    store_uris(datasets_xml, xpath, uri_base, json_file)
+    print 'store_uris end: ' + datetime.now().isoformat()
+    print 'done'

@@ -1,0 +1,2 @@
+{% for uri in metadata_uris %}{{uri}}
+{% endfor %}

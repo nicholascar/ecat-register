@@ -1,4 +1,5 @@
-from flask import Blueprint, Response, request, redirect, render_template, g, jsonify
+import json
+from flask import Blueprint, Response, request, redirect, render_template, g, jsonify, render_template_string
 import settings
 import functions
 routes = Blueprint('routes', __name__)
@@ -17,7 +18,8 @@ def dataset():
 @routes.route('/dataset/')
 def datasets():
     # get the metadata values of the sample
-    metadata_uris = functions.get_dataset_uris_static('http://pid-test.geoscience.gov.au/dataset/')
+    metadata_uris = json.load(open(settings.DATASETS_JSON_FILE))
+    metadata_uris.sort()
 
     # list supported mime types
     human_mimes = [
@@ -50,13 +52,17 @@ def datasets():
                                    metadata_uris=metadata_uris,
                                    mime='text/html')
         elif best_mime == 'text/uri-list':
-            return render_template('dataset-register.txt',
-                                   metadata_uris=metadata_uris,
-                                   mime='text/uri-list')
+            uri_list = render_template_string(
+                open('templates/dataset-register.uri_list', 'r').read(),
+                metadata_uris=metadata_uris
+            )
+            return Response(uri_list,
+                            mimetype='text/uri-list')
         else:  # text
-            return render_template('dataset-register.txt',
-                                   metadata_uris=metadata_uris,
-                                   mime='text/plain')
+            txt = render_template_string(open('templates/dataset-register.txt', 'r').read(), metadata_uris=metadata_uris)
+            return Response(txt,
+                            mimetype='text/plain',
+                            headers={'Content-Disposition': 'attachment; filename="datasets.txt"'})
     # RDF
     elif best_mime in rdf_mimes:
         # make the RDF class for the items
