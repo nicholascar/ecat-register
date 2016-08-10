@@ -92,3 +92,7 @@ ENV/
 
 # PyCharm settings
 .idea/
+
+# data files
+.json
+.xml
