@@ -85,44 +85,46 @@ def uri_list_to_graph(uri_list, item_class):
 
 
 if __name__ == '__main__':
-    from datetime import datetime
-    csw_endpoint = 'http://ecat.ga.gov.au/geonetwork/srv/eng/csw'
-    request_xml = '''
-        <csw:GetRecords
-            xmlns:csw="http://www.opengis.net/cat/csw/2.0.2"
-            xmlns:ogc="http://www.opengis.net/ogc"
-            service="CSW"
-            version="2.0.2"
-            resultType="results"
-            startPosition="1"
-            maxRecords="100000"
-            outputFormat="application/xml"
-            outputSchema="csw:IsoRecord"
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2 http://schemas.opengis.net/csw/2.0.2/CSW-discovery.xsd"
-            xmlns:gmd="http://www.isotc211.org/2005/gmd"
-            xmlns:apiso="http://www.opengis.net/cat/csw/apiso/1.0">
-            <csw:Query typeNames="csw:Record">
-                <csw:ElementSetName>summary</csw:ElementSetName>
-                <csw:Constraint version="1.1.0">
-                    <ogc:Filter>
-                       <PropertyIsLike wildCard="*" singleChar="_" escapeChar="\">
-                           <PropertyName>AnyText</PropertyName>
-                           <Literal>*</Literal>
-                       </PropertyIsLike>
-                    </ogc:Filter>
-                </csw:Constraint>
-            </csw:Query>
-        </csw:GetRecords>
-    '''
-    datasets_xml = 'datasets.xml'
-    #print 'store_csw_request start: ' + datetime.now().isoformat()
-    #store_csw_request(csw_endpoint, request_xml, datasets_xml)
-    #print 'store_csw_request end: ' + datetime.now().isoformat()
-    xpath = '//gmd:identifier/gmd:RS_Identifier/gmd:code/gco:CharacterString/text()'
-    uri_base = 'http://pid.geoscience.gov.au/dataset/'
-    json_file = 'dataset_uris.json'
-    print 'store_uris start: ' + datetime.now().isoformat()
-    store_uris(datasets_xml, xpath, uri_base, json_file)
-    print 'store_uris end: ' + datetime.now().isoformat()
-    print 'done'
+    import sys
+
+    if sys.argv[1] == 'download_datasets':
+        from datetime import datetime
+        csw_endpoint = 'http://ecat.ga.gov.au/geonetwork/srv/eng/csw'
+        request_xml = '''
+            <csw:GetRecords
+                xmlns:csw="http://www.opengis.net/cat/csw/2.0.2"
+                xmlns:ogc="http://www.opengis.net/ogc"
+                service="CSW"
+                version="2.0.2"
+                resultType="results"
+                startPosition="1"
+                maxRecords="100000"
+                outputFormat="application/xml"
+                outputSchema="csw:IsoRecord"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2 http://schemas.opengis.net/csw/2.0.2/CSW-discovery.xsd"
+                xmlns:gmd="http://www.isotc211.org/2005/gmd"
+                xmlns:apiso="http://www.opengis.net/cat/csw/apiso/1.0">
+                <csw:Query typeNames="csw:Record">
+                    <csw:ElementSetName>summary</csw:ElementSetName>
+                    <csw:Constraint version="1.1.0">
+                        <ogc:Filter>
+                           <PropertyIsLike wildCard="*" singleChar="_" escapeChar="\">
+                               <PropertyName>AnyText</PropertyName>
+                               <Literal>*</Literal>
+                           </PropertyIsLike>
+                        </ogc:Filter>
+                    </csw:Constraint>
+                </csw:Query>
+            </csw:GetRecords>
+        '''
+        datasets_xml = 'datasets.xml'
+        start = datetime.now()
+        store_csw_request(csw_endpoint, request_xml, datasets_xml)
+        end = datetime.now()
+    elif sys.argv[1] == 'get_datasets_uris':
+        datasets_xml = 'datasets.xml'
+        xpath = '//gmd:identifier/gmd:RS_Identifier/gmd:code/gco:CharacterString/text()'
+        uri_base = 'http://pid.geoscience.gov.au/dataset/'
+        json_file = 'dataset_uris.json'
+        store_uris(datasets_xml, xpath, uri_base, json_file)
