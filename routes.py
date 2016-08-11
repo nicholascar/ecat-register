@@ -13,7 +13,7 @@ def index():
 
 @routes.route('/dataset')
 def dataset():
-    return 'metadata about the dataset class'
+    return render_template('datasets.html')
 
 
 @routes.route('/dataset/')
