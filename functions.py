@@ -36,7 +36,7 @@ if __name__ == '__main__':
     service_uri_base = 'http://pid.geoscience.gov.au/service/'
     services_uris = 'services.txt'
 
-    request_xml = '''
+    request_query = '''
         <csw:GetRecords
             xmlns:csw="http://www.opengis.net/cat/csw/2.0.2"
             xmlns:ogc="http://www.opengis.net/ogc"
@@ -68,15 +68,15 @@ if __name__ == '__main__':
     if sys.argv[1] == 'services':
         if sys.argv[2] == 'download':
             csw_endpoint = 'http://ecat.ga.gov.au/geonetwork/srv/eng/csw-services'
-            store_csw_request(csw_endpoint, request_xml, services_xml)
+            store_csw_request(csw_endpoint, request_query, services_xml)
         elif sys.argv[2] == 'extract':
             subprocess.call(shlex.split('sh script_extract_ids.sh %s %s' % (services_xml, services_uris)))
         elif sys.argv[2] == 'uris':
             subprocess.call(shlex.split('sh script_make_uris.sh %s %s' % (services_uris, service_uri_base)))
     elif sys.argv[1] == 'datasets':
-        if sys.argv[1] == 'download':
+        if sys.argv[2] == 'download':
             csw_endpoint = 'http://ecat.ga.gov.au/geonetwork/srv/eng/csw'
-            store_csw_request(csw_endpoint, request_xml, datasets_xml)
+            store_csw_request(csw_endpoint, request_query, datasets_xml)
         elif sys.argv[2] == 'extract':
             uri_base = 'http://pid.geoscience.gov.au/dataset/'
             subprocess.call(shlex.split('sh script_extract_ids.sh %s %s' % (datasets_xml, datasets_uris)))
