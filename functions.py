@@ -29,11 +29,11 @@ if __name__ == '__main__':
     import sys
 
     datasets_xml = 'datasets.xml'
-    dataset_uri_base = 'http://pid.geoscience.gov.au/dataset/'
+    datasets_uri_base = 'http://pid.geoscience.gov.au/dataset/'
     datasets_ids = 'datasets.txt1'
     datasets_uris = 'datasets.txt'
     services_xml = 'services.xml'
-    service_uri_base = 'http://pid.geoscience.gov.au/service/'
+    services_uri_base = 'http://pid.geoscience.gov.au/service/'
     services_uris = 'services.txt'
 
     request_query = '''
@@ -72,15 +72,15 @@ if __name__ == '__main__':
         elif sys.argv[2] == 'extract':
             subprocess.call(shlex.split('sh script_extract_ids.sh %s %s' % (services_xml, services_uris)))
         elif sys.argv[2] == 'uris':
-            subprocess.call(shlex.split('sh script_make_uris.sh %s %s' % (services_uris, service_uri_base)))
+            subprocess.call(shlex.split('sh script_make_uris.sh %s %s' % (services_uris, services_uri_base)))
     elif sys.argv[1] == 'datasets':
         if sys.argv[2] == 'download':
             csw_endpoint = 'http://ecat.ga.gov.au/geonetwork/srv/eng/csw'
             store_csw_request(csw_endpoint, request_query, datasets_xml)
         elif sys.argv[2] == 'extract':
             uri_base = 'http://pid.geoscience.gov.au/dataset/'
-            subprocess.call(shlex.split('sh script_extract_ids.sh %s %s' % (datasets_xml, datasets_uris)))
+            subprocess.call(shlex.split('sh script_extract_ids.sh %s %s' % (datasets_xml, datasets_ids)))
         elif sys.argv[2] == 'remove_services':
             subprocess.call(shlex.split('sh script_remove_lines.sh %s %s %s' % (services_uris, datasets_ids, datasets_uris)))
         elif sys.argv[2] == 'uris':
-            subprocess.call(shlex.split('sh script_make_uris.sh %s %s' % (datasets_uris, service_uri_base)))
+            subprocess.call(shlex.split('sh script_make_uris.sh %s %s' % (datasets_uris, datasets_uri_base)))
