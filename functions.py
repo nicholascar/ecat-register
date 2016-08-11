@@ -2,19 +2,25 @@ import requests
 import json
 from rdflib import Graph, URIRef, RDF
 from lxml import etree
+import subprocess
+import shlex
 
 
 def store_csw_request(csw_endpoint, request_xml, xml_file_to_save):
     r = requests.post(csw_endpoint,
                       data=request_xml,
-                      headers={'Content-Type': 'application/xml'})
+                      headers={'Content-Type': 'application/xml'},
+                      stream=True)
 
-    open(xml_file_to_save, 'w').write(r.content)
-
+    with open(xml_file_to_save, 'wb') as f:
+        for chunk in r.iter_content(chunk_size=1024):
+            if chunk:  # filter out keep-alive new chunks
+                f.write(chunk)
     return True
 
 
 def store_uris(xml_file, xml_xpath, uri_base, json_file):
+    '''OLD, XML processing way
     # read the XML file and parse using the path
     xml = etree.parse(xml_file)
     namespaces = {
@@ -36,6 +42,10 @@ def store_uris(xml_file, xml_xpath, uri_base, json_file):
 
     # write results to a JSON file
     json.dump(results, open(json_file, 'w'), indent=4)
+
+    return True
+    '''
+    subprocess.call(shlex.split('sh extract_uris.sh %s %s %s' % xml_file, json_file, uri_base))
 
     return True
 
