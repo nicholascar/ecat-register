@@ -112,15 +112,15 @@ def datasets():
         g = functions.uri_list_to_graph(dataset_uris, dcat_dataset)
         # return RDF
         if best_mime == 'application/rdf+json' or best_mime == 'application/json-ld' or best_mime == 'application/json':
-            return Response(g.serialize(format='json-ld'), mimetype=best_mime)
+            return Response(g.serialize(format='json-ld'), status=200, mimetype=best_mime)
         elif best_mime == 'text/nt':
-            return Response(g.serialize(format='nt'), mimetype=best_mime)
+            return Response(g.serialize(format='nt'), status=200, mimetype=best_mime)
         elif best_mime == 'text/n3':
-            return Response(g.serialize(format='n3'), mimetype=best_mime)
+            return Response(g.serialize(format='n3'), status=200, mimetype=best_mime)
         elif best_mime == 'applications/rdf+xml':
-            return Response(g.serialize(format='xml'), mimetype=best_mime)
+            return Response(g.serialize(format='xml'), status=200, mimetype=best_mime)
         else:  # if best_mime == 'text/turtle':
-            return Response(g.serialize(format='turtle'), mimetype=best_mime)
+            return Response(g.serialize(format='turtle'), status=200, mimetype=best_mime)
     # XML
     else:  # if best_mime in rdf_mimes:
         return render_template(
@@ -229,15 +229,15 @@ def services():
         g = functions.uri_list_to_graph(services_uris, dpn_service)
         # return RDF
         if best_mime == 'application/rdf+json' or best_mime == 'application/json-ld' or best_mime == 'application/json':
-            return Response(g.serialize(format='json-ld'), mimetype=best_mime)
+            return Response(g.serialize(format='json-ld'), status=200, mimetype=best_mime)
         elif best_mime == 'text/nt':
-            return Response(g.serialize(format='nt'), mimetype=best_mime)
+            return Response(g.serialize(format='nt'), status=200, mimetype=best_mime)
         elif best_mime == 'text/n3':
-            return Response(g.serialize(format='n3'), mimetype=best_mime)
+            return Response(g.serialize(format='n3'), status=200, mimetype=best_mime)
         elif best_mime == 'applications/rdf+xml':
-            return Response(g.serialize(format='xml'), mimetype=best_mime)
+            return Response(g.serialize(format='xml'), status=200, mimetype=best_mime)
         else:  # if best_mime == 'text/turtle':
-            return Response(g.serialize(format='turtle'), mimetype=best_mime)
+            return Response(g.serialize(format='turtle'), status=200, mimetype=best_mime)
     # XML
     else:  # if best_mime in rdf_mimes:
         return render_template(
