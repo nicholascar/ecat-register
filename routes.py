@@ -158,7 +158,7 @@ def services():
         if request.args.get('_format') == 'text/uri-list':
             uri_list = render_template_string(
                 open('templates/service-register.uri-list', 'r').read(),
-                service_uris=services_uris
+                services_uris=services_uris
             )
             return Response(
                 uri_list,

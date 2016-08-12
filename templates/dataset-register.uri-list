@@ -1,1 +1,2 @@
-{% for uri in dataset_uris %}{{uri|trim()}}{% endfor %}
+{% for uri in dataset_uris %}{{uri|trim()}}
+{% endfor %}
