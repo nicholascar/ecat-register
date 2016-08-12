@@ -44,9 +44,10 @@ def datasets():
             )
             return Response(
                 uri_list,
+                status=200,
                 mimetype='text/uri-list'
             )
-        elif request.args.get('_fromat') == 'text/turtle':
+        elif request.args.get('_format') == 'text/turtle':
             dcat_dataset = 'http://www.w3.org/ns/dcat#Dataset'
             g = functions.uri_list_to_graph(dataset_uris, dcat_dataset)
             return Response(g.serialize(format='turtle'), status=200, mimetype='text/turtle')
@@ -161,9 +162,10 @@ def services():
             )
             return Response(
                 uri_list,
+                status=200,
                 mimetype='text/uri-list'
             )
-        elif request.args.get('_fromat') == 'text/turtle':
+        elif request.args.get('_format') == 'text/turtle':
             dcat_dataset = 'http://www.w3.org/ns/dcat#Dataset'
             g = functions.uri_list_to_graph(services_uris, dcat_dataset)
             return Response(g.serialize(format='turtle'), status=200, mimetype='text/turtle')
