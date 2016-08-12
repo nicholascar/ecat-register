@@ -198,7 +198,7 @@ def services():
             return render_template(
                 'service-register.html',
                 services_uris=services_uris,
-                mime='text/html'
+                mimetype='text/html'
             )
         elif best_mime == 'text/uri-list':
             uri_list = render_template_string(
@@ -217,8 +217,8 @@ def services():
             )
             return Response(
                 txt,
-                mimetype='text/plain',
                 status=200,
+                mimetype='text/plain',
                 headers={'Content-Disposition': 'attachment; filename="services.txt"'}
             )
     # RDF
@@ -241,7 +241,7 @@ def services():
     # XML
     else:  # if best_mime in rdf_mimes:
         return render_template(
-            'dataset-register.xml',
+            'service-register.xml',
             services_uris=services_uris,
             mimetype='application/xml'
         )
