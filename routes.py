@@ -113,7 +113,7 @@ def datasets():
 
 
 @routes.route('/service')
-def services():
+def service():
     return render_template('services.html')
 
 
