@@ -1,2 +1,1 @@
-{% for uri in services_uris %}{{uri}}
-{% endfor %}
+{% for uri in services_uris %}{{uri}}{% endfor %}

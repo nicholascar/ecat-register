@@ -120,7 +120,7 @@ def datasets():
         elif best_mime == 'applications/rdf+xml':
             return Response(g.serialize(format='xml'), status=200, mimetype=best_mime)
         else:  # if best_mime == 'text/turtle':
-            return Response(g.serialize(format='turtle'), status=200, mimetype=best_mime)
+            return Response(g.serialize(format='turtle'), status=200, mimetype='text/turtle')
     # XML
     else:  # if best_mime in rdf_mimes:
         return render_template(
@@ -237,7 +237,7 @@ def services():
         elif best_mime == 'applications/rdf+xml':
             return Response(g.serialize(format='xml'), status=200, mimetype=best_mime)
         else:  # if best_mime == 'text/turtle':
-            return Response(g.serialize(format='turtle'), status=200, mimetype=best_mime)
+            return Response(g.serialize(format='turtle'), status=200, mimetype='text/turtle')
     # XML
     else:  # if best_mime in rdf_mimes:
         return render_template(
