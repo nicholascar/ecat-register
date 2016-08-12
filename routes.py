@@ -85,7 +85,7 @@ def datasets():
             )
         elif best_mime == 'text/uri-list':
             uri_list = render_template_string(
-                open('templates/dataset-register.uri_list', 'r').read(),
+                open('templates/dataset-register.uri-list', 'r').read(),
                 dataset_uris=dataset_uris
             )
             return Response(
@@ -154,7 +154,7 @@ def services():
     if request.args.get('_format'):
         if request.args.get('_format') == 'text/uri-list':
             uri_list = render_template_string(
-                open('templates/dataset-register.uri_list', 'r').read(),
+                open('templates/service-register.uri-list', 'r').read(),
                 service_uris=services_uris
             )
             return Response(
