@@ -1,5 +1,5 @@
 <uris>
     {% for uri in services_uris %}
-        <uri>{{uri}}</uri>
+        <uri>{{uri|trim()}}</uri>
     {% endfor %}
 </uris>

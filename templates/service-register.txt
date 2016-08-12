@@ -3,5 +3,5 @@ eCat's Services Register
 
 These are all the URIs of eCat's Services:
 
-{% for uri in services_uris %}{{uri}}
+{% for uri in services_uris %}{{uri|trim()}}
 {% endfor %}
