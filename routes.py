@@ -22,7 +22,7 @@ def dataset():
 @routes.route('/dataset/')
 def datasets():
     # produce error note if dataset index missing
-    if not os.path.isfile(settings.DATASETS_JSON_FILE):
+    if not os.path.isfile(settings.DATASETS_URIS_FILE):
         missing_txt = render_template_string(
             open('templates/missing.html', 'r').read(),
             title='Datasets',
