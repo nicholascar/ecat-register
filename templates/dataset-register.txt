@@ -1,5 +1,5 @@
-Dataset Register
-================
+eCat's Dataset Register
+=======================
 
 These are all the URIs of eCat's Datasets
 
