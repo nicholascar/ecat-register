@@ -35,6 +35,22 @@ def datasets():
     # get the dataset URIs
     dataset_uris = open(settings.DATASETS_URIS_FILE).readlines()
 
+    # user specifies format via QSA
+    if request.args.get('_fromat'):
+        if request.args.get('_fromat') == 'text/uri-list':
+            uri_list = render_template_string(
+                open('templates/dataset-register.uri_list', 'r').read(),
+                dataset_uris=dataset_uris
+            )
+            return Response(
+                uri_list,
+                mimetype='text/uri-list'
+            )
+        elif request.args.get('_fromat') == 'text/turtle':
+            dcat_dataset = 'http://www.w3.org/ns/dcat#Dataset'
+            g = functions.uri_list_to_graph(dataset_uris, dcat_dataset)
+            return Response(g.serialize(format='turtle'), mimetype='text/turtle')
+
     # list supported mime types
     human_mimes = [
         'text/html',
@@ -133,6 +149,22 @@ def services():
 
     # get the dataset URIs
     services_uris = open(settings.SERVICES_URIS_FILE).readlines()
+
+    # user specifies format via QSA
+    if request.args.get('_fromat'):
+        if request.args.get('_fromat') == 'text/uri-list':
+            uri_list = render_template_string(
+                open('templates/dataset-register.uri_list', 'r').read(),
+                service_uris=services_uris
+            )
+            return Response(
+                uri_list,
+                mimetype='text/uri-list'
+            )
+        elif request.args.get('_fromat') == 'text/turtle':
+            dcat_dataset = 'http://www.w3.org/ns/dcat#Dataset'
+            g = functions.uri_list_to_graph(services_uris, dcat_dataset)
+            return Response(g.serialize(format='turtle'), mimetype='text/turtle')
 
     # list supported mime types
     human_mimes = [
