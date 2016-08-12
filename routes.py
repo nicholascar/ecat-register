@@ -36,8 +36,8 @@ def datasets():
     dataset_uris = open(settings.DATASETS_URIS_FILE).readlines()
 
     # user specifies format via QSA
-    if request.args.get('_fromat'):
-        if request.args.get('_fromat') == 'text/uri-list':
+    if request.args.get('_format'):
+        if request.args.get('_format') == 'text/uri-list':
             uri_list = render_template_string(
                 open('templates/dataset-register.uri_list', 'r').read(),
                 dataset_uris=dataset_uris
@@ -151,8 +151,8 @@ def services():
     services_uris = open(settings.SERVICES_URIS_FILE).readlines()
 
     # user specifies format via QSA
-    if request.args.get('_fromat'):
-        if request.args.get('_fromat') == 'text/uri-list':
+    if request.args.get('_format'):
+        if request.args.get('_format') == 'text/uri-list':
             uri_list = render_template_string(
                 open('templates/dataset-register.uri_list', 'r').read(),
                 service_uris=services_uris
