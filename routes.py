@@ -39,7 +39,7 @@ def datasets():
     if request.args.get('_format'):
         if request.args.get('_format') == 'text/uri-list':
             uri_list = render_template_string(
-                open('templates/dataset-register.uri_list', 'r').read(),
+                open('templates/dataset-register.uri-list', 'r').read(),
                 dataset_uris=dataset_uris
             )
             return Response(
@@ -49,7 +49,7 @@ def datasets():
         elif request.args.get('_fromat') == 'text/turtle':
             dcat_dataset = 'http://www.w3.org/ns/dcat#Dataset'
             g = functions.uri_list_to_graph(dataset_uris, dcat_dataset)
-            return Response(g.serialize(format='turtle'), mimetype='text/turtle')
+            return Response(g.serialize(format='turtle'), status=200, mimetype='text/turtle')
 
     # list supported mime types
     human_mimes = [
@@ -90,6 +90,7 @@ def datasets():
             )
             return Response(
                 uri_list,
+                status=200,
                 mimetype='text/uri-list'
             )
         else:  # text
@@ -99,6 +100,7 @@ def datasets():
             )
             return Response(
                 txt,
+                status=200,
                 mimetype='text/plain',
                 headers={'Content-Disposition': 'attachment; filename="datasets.txt"'}
             )
@@ -164,7 +166,7 @@ def services():
         elif request.args.get('_fromat') == 'text/turtle':
             dcat_dataset = 'http://www.w3.org/ns/dcat#Dataset'
             g = functions.uri_list_to_graph(services_uris, dcat_dataset)
-            return Response(g.serialize(format='turtle'), mimetype='text/turtle')
+            return Response(g.serialize(format='turtle'), status=200, mimetype='text/turtle')
 
     # list supported mime types
     human_mimes = [
@@ -200,11 +202,12 @@ def services():
             )
         elif best_mime == 'text/uri-list':
             uri_list = render_template_string(
-                open('templates/service-register.uri_list', 'r').read(),
+                open('templates/service-register.uri-list', 'r').read(),
                 services_uris=services_uris
             )
             return Response(
                 uri_list,
+                status=200,
                 mimetype='text/uri-list'
             )
         else:  # text
@@ -215,6 +218,7 @@ def services():
             return Response(
                 txt,
                 mimetype='text/plain',
+                status=200,
                 headers={'Content-Disposition': 'attachment; filename="services.txt"'}
             )
     # RDF
