@@ -8,7 +8,10 @@ routes = Blueprint('routes', __name__)
 
 @routes.route('/')
 def index():
-    return render_template('index.html')
+    return render_template(
+        'index.html',
+        web_subfolder=settings.WEB_SUBFOLDER
+    )
 
 
 @routes.route('/dataset')
