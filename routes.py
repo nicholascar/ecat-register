@@ -30,9 +30,8 @@ def datasets():
             status=500
         )
 
-    # get the metadata values of the sample
-    metadata_uris = json.load(open(settings.DATASETS_JSON_FILE))
-    metadata_uris.sort()
+    # get the dataset URIs
+    dataset_uris = open(settings.DATASETS_URIS_FILE).readlines()
 
     # list supported mime types
     human_mimes = [
@@ -61,27 +60,36 @@ def datasets():
     # human-readable
     if best_mime in human_mimes:
         if best_mime == 'text/html':
-            return render_template('dataset-register.html',
-                                   metadata_uris=metadata_uris,
-                                   mime='text/html')
+            return render_template(
+                'dataset-register.html',
+                dataset_uris=dataset_uris,
+                mime='text/html'
+            )
         elif best_mime == 'text/uri-list':
             uri_list = render_template_string(
                 open('templates/dataset-register.uri_list', 'r').read(),
-                metadata_uris=metadata_uris
+                dataset_uris=dataset_uris
             )
-            return Response(uri_list,
-                            mimetype='text/uri-list')
+            return Response(
+                uri_list,
+                mimetype='text/uri-list'
+            )
         else:  # text
-            txt = render_template_string(open('templates/dataset-register.txt', 'r').read(), metadata_uris=metadata_uris)
-            return Response(txt,
-                            mimetype='text/plain',
-                            headers={'Content-Disposition': 'attachment; filename="datasets.txt"'})
+            txt = render_template_string(
+                open('templates/dataset-register.txt', 'r').read(),
+                dataset_uris=dataset_uris
+            )
+            return Response(
+                txt,
+                mimetype='text/plain',
+                headers={'Content-Disposition': 'attachment; filename="datasets.txt"'}
+            )
     # RDF
     elif best_mime in rdf_mimes:
         # make the RDF class for the items
         dcat_dataset = 'http://www.w3.org/ns/dcat#Dataset'
 
-        g = functions.uri_list_to_graph(metadata_uris, dcat_dataset)
+        g = functions.uri_list_to_graph(dataset_uris, dcat_dataset)
         # return RDF
         if best_mime == 'application/rdf+json' or best_mime == 'application/json-ld' or best_mime == 'application/json':
             return Response(g.serialize(format='json-ld'), mimetype=best_mime)
@@ -95,6 +103,8 @@ def datasets():
             return Response(g.serialize(format='turtle'), mimetype=best_mime)
     # XML
     else:  # if best_mime in rdf_mimes:
-        return render_template('dataset-register.xml',
-                               metadata_uris=metadata_uris,
-                               mime='application/xml')
+        return render_template(
+            'dataset-register.xml',
+            dataset_uris=dataset_uris,
+            mimetype='application/xml'
+        )

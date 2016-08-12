@@ -3,5 +3,5 @@ Dataset Register
 
 These are all the URIs of eCat's Datasets
 
-{% for uri in metadata_uris %}{{uri}}
+{% for uri in dataset_uris %}{{uri}}
 {% endfor %}

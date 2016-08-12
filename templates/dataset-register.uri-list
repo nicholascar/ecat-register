@@ -1,2 +1,2 @@
-{% for uri in metadata_uris %}{{uri}}
+{% for uri in dataset_uris %}{{uri}}
 {% endfor %}

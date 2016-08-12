@@ -6,4 +6,5 @@ PORT = 9000
 THREADED = False
 DEBUG = True
 
-DATASETS_JSON_FILE = 'dataset_uris.json'
+SERVICES_URIS_FILE = 'services.txt'
+DATASETS_URIS_FILE = 'datasets.txt'

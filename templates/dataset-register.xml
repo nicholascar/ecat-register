@@ -1,0 +1,5 @@
+<uris>
+    {% for uri in dataset_uris %}
+        <uri>{{uri}}</uri>
+    {% endfor %}
+</uris>
