@@ -11,7 +11,7 @@ app.register_blueprint(routes)
 # run the Flask app
 if __name__ == '__main__':
     logging.basicConfig(filename=settings.LOGFILE,
-                        level=logging.ERROR,
+                        level=logging.DEBUG,
                         datefmt='%Y-%m-%d %H:%M:%S',
                         format='%(asctime)s %(levelname)s %(filename)s:%(lineno)s %(message)s')
 
