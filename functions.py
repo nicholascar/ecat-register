@@ -72,31 +72,31 @@ if __name__ == '__main__':
         if sys.argv[2] == 'download':
             store_csw_request(services_csw_endpoint, request_query, services_xml)
         elif sys.argv[2] == 'extract':
-            subprocess.call(shlex.split('sh script_extract_ids.sh %s %s' % (services_xml, services_uris)))
+            subprocess.call(shlex.split('sh ' + settings.APP_DIR + 'script_extract_ids.sh %s %s' % (services_xml, services_uris)))
         elif sys.argv[2] == 'uris':
-            subprocess.call(shlex.split('sh script_make_uris.sh %s %s' % (services_uris, services_uri_base)))
+            subprocess.call(shlex.split('sh ' + settings.APP_DIR + 'script_make_uris.sh %s %s' % (services_uris, services_uri_base)))
     elif sys.argv[1] == 'datasets':
         if sys.argv[2] == 'download':
             store_csw_request(datasets_csw_endpoint, request_query, datasets_xml)
         elif sys.argv[2] == 'extract':
-            subprocess.call(shlex.split('sh script_extract_ids.sh %s %s' % (datasets_xml, datasets_ids)))
+            subprocess.call(shlex.split('sh ' + settings.APP_DIR + 'script_extract_ids.sh %s %s' % (datasets_xml, datasets_ids)))
         elif sys.argv[2] == 'remove_services':
-            subprocess.call(shlex.split('sh script_remove_lines.sh %s %s %s' % (services_uris, datasets_ids, datasets_uris)))
+            subprocess.call(shlex.split('sh ' + settings.APP_DIR + 'script_remove_lines.sh %s %s %s' % (services_uris, datasets_ids, datasets_uris)))
         elif sys.argv[2] == 'uris':
-            subprocess.call(shlex.split('sh script_make_uris.sh %s %s' % (datasets_uris, datasets_uri_base)))
+            subprocess.call(shlex.split('sh ' + settings.APP_DIR + 'script_make_uris.sh %s %s' % (datasets_uris, datasets_uri_base)))
     elif sys.argv[1] == 'update':
         # get services
         store_csw_request(services_csw_endpoint, request_query, services_xml)
         # get datasets
         store_csw_request(datasets_csw_endpoint, request_query, datasets_xml)
         # extract service IDs
-        subprocess.call(shlex.split('sh script_extract_ids.sh %s %s' % (services_xml, services_uris)))
+        subprocess.call(shlex.split('sh ' + settings.APP_DIR + 'script_extract_ids.sh %s %s' % (services_xml, services_uris)))
         # extract dataset IDs
-        subprocess.call(shlex.split('sh script_extract_ids.sh %s %s' % (datasets_xml, datasets_ids)))
+        subprocess.call(shlex.split('sh ' + settings.APP_DIR + 'script_extract_ids.sh %s %s' % (datasets_xml, datasets_ids)))
         # remove services from datasets
-        subprocess.call(shlex.split('sh script_remove_lines.sh %s %s %s' % (services_uris, datasets_ids, datasets_uris)))
+        subprocess.call(shlex.split('sh ' + settings.APP_DIR + 'script_remove_lines.sh %s %s %s' % (services_uris, datasets_ids, datasets_uris)))
         # make service URIs
-        subprocess.call(shlex.split('sh script_make_uris.sh %s %s' % (services_uris, services_uri_base)))
+        subprocess.call(shlex.split('sh ' + settings.APP_DIR + 'script_make_uris.sh %s %s' % (services_uris, services_uri_base)))
         # make dataset URIs
-        subprocess.call(shlex.split('sh script_make_uris.sh %s %s' % (datasets_uris, datasets_uri_base)))
+        subprocess.call(shlex.split('sh ' + settings.APP_DIR + 'script_make_uris.sh %s %s' % (datasets_uris, datasets_uri_base)))
 
