@@ -14,5 +14,7 @@ This app contains a series of offline functions that are used to get the data it
 
 The offline functions are either pure Python functions or Python functions that call Linux BASH shell scripts to process data from the CSW requests. These functions are use to update this application's list of dataset & service URIs which are sources from eCat Public which is always considered the point of truth. 
 
+All the offline functions can be run separately (see functions.py) or all together which is done each night to update the datasets and services indexes. 
+
 ## Author
 Nicholas Car

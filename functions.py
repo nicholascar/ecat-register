@@ -2,6 +2,7 @@ import requests
 from rdflib import Graph, URIRef, RDF
 import subprocess
 import shlex
+import settings
 
 
 def store_csw_request(csw_endpoint, request_xml, xml_file_to_save):
@@ -29,14 +30,14 @@ if __name__ == '__main__':
     import sys
 
     datasets_csw_endpoint = 'http://ecat.ga.gov.au/geonetwork/srv/eng/csw'
-    datasets_xml = 'datasets.xml'
+    datasets_xml = settings.APP_DIR + 'datasets.xml'
     datasets_uri_base = 'http://pid.geoscience.gov.au/dataset/'
-    datasets_ids = 'datasets.txt1'
-    datasets_uris = 'datasets.txt'
+    datasets_ids = settings.APP_DIR + 'datasets.txt1'
+    datasets_uris = settings.APP_DIR + 'datasets.txt'
     services_csw_endpoint = 'http://ecat.ga.gov.au/geonetwork/srv/eng/csw-services'
-    services_xml = 'services.xml'
+    services_xml = settings.APP_DIR + 'services.xml'
     services_uri_base = 'http://pid.geoscience.gov.au/service/'
-    services_uris = 'services.txt'
+    services_uris = settings.APP_DIR + 'services.txt'
 
     request_query = '''
         <csw:GetRecords
