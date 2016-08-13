@@ -26,7 +26,7 @@ def datasets():
     # produce error note if dataset index missing
     if not os.path.isfile(settings.DATASETS_URIS_FILE):
         missing_txt = render_template_string(
-            open('templates/missing.html', 'r').read(),
+            open(settings.APP_DIR + 'templates/missing.html', 'r').read(),
             title='Datasets',
             missing_file='datasets index',
             static_server=settings.STATIC_SERVER
@@ -43,7 +43,7 @@ def datasets():
     if request.args.get('_format'):
         if request.args.get('_format') == 'text/uri-list':
             uri_list = render_template_string(
-                open('templates/dataset-register.uri-list', 'r').read(),
+                open(settings.APP_DIR + 'templates/dataset-register.uri-list', 'r').read(),
                 dataset_uris=dataset_uris
             )
             return Response(
@@ -91,7 +91,7 @@ def datasets():
             )
         elif best_mime == 'text/uri-list':
             uri_list = render_template_string(
-                open('templates/dataset-register.uri-list', 'r').read(),
+                open(settings.APP_DIR + 'templates/dataset-register.uri-list', 'r').read(),
                 dataset_uris=dataset_uris
             )
             return Response(
@@ -101,7 +101,7 @@ def datasets():
             )
         else:  # text
             txt = render_template_string(
-                open('templates/dataset-register.txt', 'r').read(),
+                open(settings.APP_DIR + 'templates/dataset-register.txt', 'r').read(),
                 dataset_uris=dataset_uris
             )
             return Response(
@@ -149,7 +149,7 @@ def services():
     # produce error note if dataset index missing
     if not os.path.isfile(settings.SERVICES_URIS_FILE):
         missing_txt = render_template_string(
-            open('templates/missing.html', 'r').read(),
+            open(settings.APP_DIR + 'templates/missing.html', 'r').read(),
             title='Services',
             missing_file='services index',
             static_server=settings.STATIC_SERVER
@@ -166,7 +166,7 @@ def services():
     if request.args.get('_format'):
         if request.args.get('_format') == 'text/uri-list':
             uri_list = render_template_string(
-                open('templates/service-register.uri-list', 'r').read(),
+                open(settings.APP_DIR + 'templates/service-register.uri-list', 'r').read(),
                 services_uris=services_uris
             )
             return Response(
@@ -215,7 +215,7 @@ def services():
             )
         elif best_mime == 'text/uri-list':
             uri_list = render_template_string(
-                open('templates/service-register.uri-list', 'r').read(),
+                open(settings.APP_DIR + 'templates/service-register.uri-list', 'r').read(),
                 services_uris=services_uris
             )
             return Response(
@@ -225,7 +225,7 @@ def services():
             )
         else:  # text
             txt = render_template_string(
-                open('templates/service-register.txt', 'r').read(),
+                open(settings.APP_DIR + 'templates/service-register.txt', 'r').read(),
                 services_uris=services_uris
             )
             return Response(
