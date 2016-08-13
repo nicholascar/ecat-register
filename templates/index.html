@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>eCat Static Index</title>
-</head>
-<body>
+{% extends "layout.html" %}
+
+{% block content %}
     <h1>eCat Static Index</h1>
     <p>Please see the following links:</p>
     <ul>
-        <li><a href="/{{web_subfolder}}/dataset/">Datasets Index</a></li>
-        <li><a href="/{{web_subfolder}}/service/">Services Index</a></li>
+        <li><a href="{{web_subfolder}}/dataset/">Datasets Index</a></li>
+	    <li><a href="{{web_subfolder}}/service/">Services Index</a></li>
     </ul>
-</body>
-</html>
+{% endblock %}

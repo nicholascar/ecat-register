@@ -1,5 +1,5 @@
 <uris>
     {% for uri in dataset_uris %}
-        <uri>{{uri|trim()}}</uri>
+        <uri>{{uri}}</uri>
     {% endfor %}
 </uris>

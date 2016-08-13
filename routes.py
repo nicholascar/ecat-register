@@ -25,7 +25,8 @@ def datasets():
         missing_txt = render_template_string(
             open('templates/missing.html', 'r').read(),
             title='Datasets',
-            missing_file='datasets index'
+            missing_file='datasets index',
+            web_subfolder=settings.WEB_SUBFOLDER
         )
         return Response(
             missing_txt,
@@ -33,7 +34,7 @@ def datasets():
         )
 
     # get the dataset URIs
-    dataset_uris = open(settings.DATASETS_URIS_FILE).readlines()
+    dataset_uris = open(settings.DATASETS_URIS_FILE).read().splitlines()
 
     # user specifies format via QSA
     if request.args.get('_format'):
@@ -143,7 +144,8 @@ def services():
         missing_txt = render_template_string(
             open('templates/missing.html', 'r').read(),
             title='Services',
-            missing_file='services index'
+            missing_file='services index',
+            web_subfolder=settings.WEB_SUBFOLDER
         )
         return Response(
             missing_txt,
@@ -151,7 +153,7 @@ def services():
         )
 
     # get the dataset URIs
-    services_uris = open(settings.SERVICES_URIS_FILE).readlines()
+    services_uris = open(settings.SERVICES_URIS_FILE).read().splitlines()
 
     # user specifies format via QSA
     if request.args.get('_format'):
@@ -173,6 +175,7 @@ def services():
     # list supported mime types
     human_mimes = [
         'text/html',
+        'text/uri-list',
         'text/plain'
     ]
     # RDF mime types
