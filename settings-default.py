@@ -1,11 +1,12 @@
-HOME_DIR = 'c:/work/eCat-register/'
+APP_DIR = 'c:/work/eCat-register/'
 STATIC_DIR = 'static/'
-LOGFILE = HOME_DIR + 'ecat-register.log'
+LOGFILE = APP_DIR + 'ecat-register.log'
 HOST = '0.0.0.0'
 PORT = 9000
 THREADED = False
 DEBUG = True
-WEB_SUBFOLDER = ''
 
-SERVICES_URIS_FILE = 'services.txt'
-DATASETS_URIS_FILE = 'datasets.txt'
+SERVICES_URIS_FILE = APP_DIR + 'services.txt'
+DATASETS_URIS_FILE = APP_DIR + 'datasets.txt'
+
+STATIC_SERVER = ''

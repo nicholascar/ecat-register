@@ -9,7 +9,7 @@ routes = Blueprint('routes', __name__)
 def index():
     return render_template(
         'index.html',
-        web_subfolder=request.url_root + settings.WEB_SUBFOLDER
+        static_server=settings.STATIC_SERVER
     )
 
 
@@ -17,7 +17,7 @@ def index():
 def dataset():
     return render_template(
         'datasets.html',
-        web_subfolder=request.url_root + settings.WEB_SUBFOLDER
+        static_server=settings.STATIC_SERVER
     )
 
 
@@ -29,7 +29,7 @@ def datasets():
             open('templates/missing.html', 'r').read(),
             title='Datasets',
             missing_file='datasets index',
-            web_subfolder=request.url_root + settings.WEB_SUBFOLDER
+            static_server=settings.STATIC_SERVER
         )
         return Response(
             missing_txt,
@@ -86,7 +86,7 @@ def datasets():
             return render_template(
                 'dataset-register.html',
                 dataset_uris=dataset_uris,
-                web_subfolder=request.url_root + settings.WEB_SUBFOLDER,
+                static_server=settings.STATIC_SERVER,
                 mime='text/html'
             )
         elif best_mime == 'text/uri-list':
@@ -140,7 +140,7 @@ def datasets():
 def service():
     return render_template(
         'services.html',
-        web_subfolder=request.url_root + settings.WEB_SUBFOLDER
+        static_server=settings.STATIC_SERVER
     )
 
 
@@ -152,7 +152,7 @@ def services():
             open('templates/missing.html', 'r').read(),
             title='Services',
             missing_file='services index',
-            web_subfolder=request.url_root + settings.WEB_SUBFOLDER
+            static_server=settings.STATIC_SERVER
         )
         return Response(
             missing_txt,
@@ -210,7 +210,7 @@ def services():
             return render_template(
                 'service-register.html',
                 services_uris=services_uris,
-                web_subfolder=request.url_root + settings.WEB_SUBFOLDER,
+                static_server=settings.STATIC_SERVER,
                 mimetype='text/html'
             )
         elif best_mime == 'text/uri-list':
