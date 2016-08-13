@@ -15,7 +15,10 @@ def index():
 
 @routes.route('/dataset')
 def dataset():
-    return render_template('datasets.html')
+    return render_template(
+        'datasets.html',
+        web_subfolder=settings.WEB_SUBFOLDER
+    )
 
 
 @routes.route('/dataset/')
@@ -83,6 +86,7 @@ def datasets():
             return render_template(
                 'dataset-register.html',
                 dataset_uris=dataset_uris,
+                web_subfolder=settings.WEB_SUBFOLDER,
                 mime='text/html'
             )
         elif best_mime == 'text/uri-list':
@@ -134,7 +138,10 @@ def datasets():
 
 @routes.route('/service')
 def service():
-    return render_template('services.html')
+    return render_template(
+        'services.html',
+        web_subfolder=settings.WEB_SUBFOLDER
+    )
 
 
 @routes.route('/service/')
@@ -203,6 +210,7 @@ def services():
             return render_template(
                 'service-register.html',
                 services_uris=services_uris,
+                web_subfolder=settings.WEB_SUBFOLDER,
                 mimetype='text/html'
             )
         elif best_mime == 'text/uri-list':
