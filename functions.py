@@ -99,4 +99,43 @@ if __name__ == '__main__':
         subprocess.call(shlex.split('sh ' + settings.APP_DIR + 'script_make_uris.sh %s %s' % (services_uris, services_uri_base)))
         # make dataset URIs
         subprocess.call(shlex.split('sh ' + settings.APP_DIR + 'script_make_uris.sh %s %s' % (datasets_uris, datasets_uri_base)))
-
+    elif sys.argv[1] == 'test':
+        request_xml2 = '''
+        <csw:GetRecords
+            xmlns:csw="http://www.opengis.net/cat/csw/2.0.2"
+            xmlns:ogc="http://www.opengis.net/ogc"
+            service="CSW"
+            version="2.0.2"
+            resultType="results"
+            startPosition="1"
+            maxRecords="100000"
+            outputFormat="application/xml"
+            outputSchema="csw:IsoRecord"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2 http://schemas.opengis.net/csw/2.0.2/CSW-discovery.xsd"
+            xmlns:gmd="http://www.isotc211.org/2005/gmd"
+            xmlns:apiso="http://www.opengis.net/cat/csw/apiso/1.0">
+            <csw:Query typeNames="csw:Record">
+                <csw:ElementSetName>summary</csw:ElementSetName>
+                <csw:Constraint version="1.1.0">
+                    <ogc:Filter>
+                        <ogc:PropertyIsEqualTo>
+                            <ogc:PropertyName>Source</ogc:PropertyName>
+                            <ogc:Literal>34374</ogc:Literal>
+                        </ogc:PropertyIsEqualTo>
+                    </ogc:Filter>
+                </csw:Constraint>
+            </csw:Query>
+        </csw:GetRecords>
+        '''
+        request_xml3 = '''
+        <csw:GetRecordById xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" service="CSW" version="2.0.2">
+            <csw:Id>a05f7892-b3dd-7506-e044-00144fdd4fa6</csw:Id>
+            <csw:ElementSetName>full</csw:ElementSetName>
+        </csw:GetRecordById>
+        '''
+        z = requests.post(datasets_csw_endpoint,
+                          data=request_xml3,
+                          headers={'Content-Type': 'application/xml'},
+                          stream=True)
+        print z.text

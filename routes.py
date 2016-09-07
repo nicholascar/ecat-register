@@ -162,6 +162,9 @@ def services():
     # get the dataset URIs
     services_uris = open(settings.SERVICES_URIS_FILE).read().splitlines()
 
+    # remove weird '::::::::::::::"
+    services_uris = [y for y in services_uris if y != 'http://pid.geoscience.gov.au/service/::::::::::::::']
+
     # user specifies format via QSA
     if request.args.get('_format'):
         if request.args.get('_format') == 'text/uri-list':
